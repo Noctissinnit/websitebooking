@@ -7,6 +7,7 @@ $(document).ready(() => {
     updateBookings();
     clearForms();
     tryGoogleCallback();
+    updateCurrentAvailable();
 
     $("#select-room").select2({
         dropdownParent: $("#bookingModal"),
@@ -31,19 +32,26 @@ $(document).ready(() => {
     });
     
     $("#form-login").submit(checkLogin);
+    $('#btn-booking-form-close').click(resetSession);
     $('#form-booking').submit(async e => {
         e.preventDefault();
         if(isBookingPost) return location.reload();
-        $('#loading').css('display', 'flex');
-        isBookingPost = true;
-        
+
         const formData = new FormData(e.currentTarget);
+        if(!validateEmptyForm(formData, {
+            'start_time': 'Jam Mulai',
+            'start_time': 'Jam Selesai',
+            'description': 'Deskripsi',
+            'members': 'Peserta',
+        })) return;
+
         if(isTimeLess(formData.get("end_time"), formData.get("start_time"))){
             alert("Jam Selesai tidak bisa kurang dari Jam Mulai.");
-            isBookingPost = false;
-            $('#loading').css('display', 'none');
             return;
         }
+
+        $('#loading').css('display', 'flex');
+        isBookingPost = true;
 
         const rooms = await $.get(roomListUrl);
         let bookings = rooms.filter(dat => dat.id === roomId)[0].bookings;
@@ -341,5 +349,15 @@ function toggleOfficeMode(){
     }
 }
 
+async function resetSession(){
+    await $.get(resetSessionUrl);
+}
+
+async function updateCurrentAvailable(){
+    const res = await $.get(roomAvailableUrl);
+    $('#current-available-status').html(res.available ? 'Tersedia' : 'Tidak Tersedia');
+}
+
 setInterval(updateDateTime, 1000);
+setInterval(updateCurrentAvailable, 1000);
 setInterval(updateBookings, 5000);

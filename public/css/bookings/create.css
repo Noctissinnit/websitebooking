@@ -9,11 +9,12 @@ body {
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 #current-date,
-#current-time {
+#current-time,
+#current-available {
     font-size: 18px;
     margin: 10px 0;
 }
-#current-time {
+#current-time, #current-available {
     font-size: 22px;
     font-weight: bold;
 }

@@ -2,6 +2,9 @@
 
 @section('head')
 <link rel="stylesheet" href="/css/home.css">
+<script>
+    $(document).ready(() => $.get("{{ route('bookings.reset-session') }}"));
+</script>
 @endsection
 
 @section('content')

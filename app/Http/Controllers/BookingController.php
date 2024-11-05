@@ -38,15 +38,33 @@ class BookingController extends Controller
         $users = User::all();
 
         $user_department = null;
-        if(session('google_bookings_user_id') && session('google_bookings_date') && session('google_access_token')){
+        if (session('google_bookings_user_id') && session('google_bookings_date') && session('google_access_token')) {
             $user_department = User::find(session('google_bookings_user_id'))->department;
         }
         $officeMode = false;
-        if($request->has('office')){
+        if ($request->has('office')) {
             $officeMode = true;
         }
 
         return view("bookings.create", compact("room", "roomId", "users", 'user_department', 'officeMode'));
+    }
+
+    public function resetSession(Request $request)
+    {
+        $request->session()->remove('google_access_token');
+        $request->session()->remove('google_bookings_user_id');
+        $request->session()->remove('google_bookings_date');
+        $request->session()->remove('google_bookings_room_id');
+        $request->session()->save();
+
+        return response()->json(['success' => true]);
+    }
+
+    public function roomAvailable(int $roomId)
+    {
+        $available = Booking::where('room_id', $roomId)->where('date', '>', Carbon::now())
+            ->where('end_time', Carbon::now())->exists();
+        return response()->json(['available' => !$available]);
     }
 
     public function login(Request $request)
@@ -98,12 +116,12 @@ class BookingController extends Controller
 
         // Remove all sessions
         $request->session()->remove('google_access_token');
+        $request->session()->remove('google_bookings_user_id');
         $request->session()->remove('google_bookings_date');
         $request->session()->remove('google_bookings_room_id');
-        
 
         // Create calendar
-        if(config('services.google.calendar_enable')){
+        if (config('services.google.calendar_enable')) {
             $client = new GoogleClient();
             $client->setAccessToken($accessToken);
 
