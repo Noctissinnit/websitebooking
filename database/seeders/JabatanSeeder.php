@@ -2,11 +2,11 @@
 
 namespace Database\Seeders;
 
+use App\Models\Jabatan;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use App\Models\Department;
 
-class DepartmentSeeder extends Seeder
+class JabatanSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,10 +14,11 @@ class DepartmentSeeder extends Seeder
     public function run(): void
     {
         if(app()->isProduction()) return;
-        Department::insert([
-            [ 'name' => 'IT Support' ],
-            [ 'name' => 'Manager' ],
-            [ 'name' => 'Marketing' ]
+        Jabatan::insert([
+            [ 'name' => 'Programmer' ],
+            [ 'name' => 'Dosen' ],
+            [ 'name' => 'Karyawan' ],
+            [ 'name' => 'Security' ],
         ]);
     }
 }

@@ -3,6 +3,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Room;
+use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
@@ -55,7 +56,7 @@ class RoomController extends Controller
         $fields = $request->all('name', 'description');
         if($request->has('image')){
             $image = $request->image->store('images', ['disk' => 'public']);
-            Storage::disk('public')->delete($room->image);
+            Storage::disk('public')->delete($room->image ?? '');
             $fields = array_merge($fields, ['image' => $image]);
         }
 
@@ -66,7 +67,7 @@ class RoomController extends Controller
     // Hapus room (Admin only)
     public function destroy(Room $room)
     {
-        Storage::disk('public')->delete($room->image);
+        Storage::disk('public')->delete($room->image ?? '');
         $room->delete();
         return redirect()->route('rooms.index')->with('success', 'Room deleted successfully.');
     }

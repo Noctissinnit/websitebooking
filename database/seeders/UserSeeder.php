@@ -35,6 +35,7 @@ class UserSeeder extends Seeder
             'password' => bcrypt('password'),
             'role' => 'admin',
             'department_id' => 1,
+            'jabatan_id' => 1,
         ]);
 
         User::create([
@@ -44,6 +45,7 @@ class UserSeeder extends Seeder
             'password' => bcrypt('password'),
             'role' => 'admin',
             'department_id' => 1,
+            'jabatan_id' => 1,
         ]);
 
         User::create([
@@ -53,6 +55,7 @@ class UserSeeder extends Seeder
             'password' => bcrypt('password'),
             'role' => 'user',
             'department_id' => 1,
+            'jabatan_id' => 1,
         ]);
 
         User::create([
@@ -62,6 +65,7 @@ class UserSeeder extends Seeder
             'password' => bcrypt('password'),
             'role' => 'user',
             'department_id' => 1,
+            'jabatan_id' => 1,
         ]);
     }
 }

@@ -39,8 +39,8 @@ $(document).ready(() => {
 
         const formData = new FormData(e.currentTarget);
         if(!validateEmptyForm(formData, {
-            'start_time': 'Jam Mulai',
-            'start_time': 'Jam Selesai',
+            'start_time': 'Jam',
+            'end_time': 'Jam',
             'description': 'Deskripsi',
             'members': 'Peserta',
         })) return;
@@ -360,4 +360,4 @@ async function updateCurrentAvailable(){
 
 setInterval(updateDateTime, 1000);
 setInterval(updateCurrentAvailable, 1000);
-setInterval(updateBookings, 5000);
+setInterval(updateBookings, 1000);

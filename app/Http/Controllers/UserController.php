@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Hash;
 class UserController extends Controller
 {
     public function get(Request $request){
-        return response()->json(User::where('id', $request->id)->first(['name', 'email', 'nis']));
+        return response()->json(User::where('id', $request->id)->first(['name', 'email', 'nis', 'department_id', 'jabatan_id']));
     }
     
     public function store(Request $request)
@@ -19,10 +19,12 @@ class UserController extends Controller
             "email" => "required|email",
             "nis" => "required|numeric",
             "password" => "required",
+            "department_id" => 'required|numeric',
+            "jabatan_id" => 'required|numeric'
         ]);
 
         User::create(array_merge(
-            $request->all("name", "email", "nis", "department_id"),
+            $request->all("name", "email", "nis", "department_id", 'jabatan_id'),
             [ 'password' => Hash::make($request->password) ]
         ));
 
@@ -36,10 +38,12 @@ class UserController extends Controller
             "name" => "required",
             "email" => "required|email",
             "nis" => "required|numeric",
+            "department_id" => 'required|numeric',
+            "jabatan_id" => 'required|numeric'
         ]);
-        
+
         User::where("id", $request->id)->update(
-            $request->all("name", "email", "nis", "department_id")
+            $request->all("name", "email", "nis", "department_id", 'jabatan_id')
         );
 
         return redirect()->route("admin.dashboard");

@@ -10,6 +10,7 @@ use App\Models\Room;
 use Illuminate\Support\Facades\Auth;
 use App\Mail\BookingApprovedMail;
 use App\Models\Department;
+use App\Models\Jabatan;
 use Illuminate\Support\Facades\Mail;
 use Spatie\GoogleCalendar\Event;
 use Carbon\Carbon;
@@ -22,7 +23,8 @@ class AdminController extends Controller
     public function dashboard(){
         $users = User::all();
         $departments = Department::all();
-        return view('admin.dashboard', compact('users', 'departments'));
+        $jabatans = Jabatan::all();
+        return view('admin.dashboard', compact('users', 'departments', 'jabatans'));
     }
     // Tampilkan halaman untuk approve booking
     public function index()
